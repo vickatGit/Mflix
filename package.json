@@ -1,0 +1,16 @@
+{
+  "name": "mflix",
+  "version": "1.0.0",
+  "description": "Public Movie API which uses MongoDB Sample Data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vikas",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.2"
+  }
+}
