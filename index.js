@@ -1,0 +1,12 @@
+const express = require('express')
+const dotenv = require('dotenv')
+const dbConnect = require('./config/db_connection')
+const movieRoutes = require('./routes/movieRoutes')
+const app = express()
+dotenv.config()
+dbConnect()
+app.use('/mflix/',movieRoutes)
+console.log("port",process.env.PORT)
+app.listen(process.env.PORT,() => {
+    console.log(`listening on ${process.env.PORT}`)
+})
