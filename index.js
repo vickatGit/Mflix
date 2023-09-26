@@ -5,6 +5,7 @@ const movieRoutes = require('./routes/movieRoutes')
 const app = express()
 dotenv.config()
 dbConnect()
+app.use(express.json())
 app.use('/mflix/',movieRoutes)
 console.log("port",process.env.PORT)
 app.listen(process.env.PORT,() => {
