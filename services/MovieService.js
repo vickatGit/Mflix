@@ -60,6 +60,9 @@ const GetLanguages = async() => {
   })
   return languages
 }
+const SearchMovie = async(query) => {
+  return await Movie.find({title:{$regex:query}})
+}
 
 
 module.exports = {
@@ -67,5 +70,6 @@ module.exports = {
   GetNewReleases,
   GetGenres,
   GetLanguages,
-  GetMovies
+  GetMovies,
+  SearchMovie
 };
