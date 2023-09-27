@@ -8,8 +8,9 @@ const {
 const GetTopRatedMoviesController = async(req,res,next) => {
     const pageNo = req.params.page_no || 0
     const limit = req.params.limit || 10
-    const lang = req.query.lang || "English"
-    const data = await GetTopRatedMovies(pageNo,limit,lang)
+    const lang = req.query.lang 
+    const genre = req.query.genre
+    const data = await GetTopRatedMovies(pageNo,limit,lang,genre)
     res.status(200).send({
         movies:data
     })
@@ -17,8 +18,9 @@ const GetTopRatedMoviesController = async(req,res,next) => {
 const GetNewReleasesController = async(req,res,next) => {
     const pageNo = req.params.page_no || 0
     const limit = req.params.limit || 10
-    const lang = req.query.lang || "English"
-    const data = await GetNewReleases(pageNo,limit,lang)
+    const lang = req.query.lang 
+    const genre = req.query.genre
+    const data = await GetNewReleases(pageNo,limit,lang,genre)
     res.status(200).send({
         movies:data
     })

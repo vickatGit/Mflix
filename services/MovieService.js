@@ -1,23 +1,29 @@
 const Movie = require("../ model/Movie");
 
-const GetTopRatedMovies = async (pageNo, limit,lang) => {
-  return await Movie.aggregate([
-    {$match:{'imdb.rating':{$ne:''}}},
-    {$match  : {languages:lang}},
+const GetTopRatedMovies = async (pageNo, limit,lang,genre) => {
+  const pipeline = [{$match:{'imdb.rating':{$ne:''}}}]
+  if(lang) pipeline.push({$match  : {languages:lang}})
+  if(genre) pipeline.push({$match  : {genres:genre}})
+  pipeline.push(
     {$sort:{'imdb.rating':-1}},
     {$skip:pageNo*limit},
     {$limit:Number(limit)},
     {$sort : { released : -1}}
-  ])
+  )
+  
+  return await Movie.aggregate(pipeline)
 };
 
-const GetNewReleases = async (pageNo, limit,lang) => {
-  return await Movie.aggregate([
-    {$match  : {languages:lang}},
+const GetNewReleases = async (pageNo, limit,lang,genre) => {
+  const pipeline = []
+  if(lang) pipeline.push({$match  : {languages:lang}})
+  if(genre) pipeline.push({$match  : {genres:genre}})
+  pipeline.push(
     {$sort : {released : -1}},
     {$skip:pageNo*limit},
-    {$limit:Number(limit)},
-  ])
+    {$limit:Number(limit)}
+  )
+  return await Movie.aggregate(pipeline)
 }
 
 const GetGenres = async() => {
