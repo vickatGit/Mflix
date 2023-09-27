@@ -2,7 +2,8 @@ const {
     GetTopRatedMovies,
     GetNewReleases,
     GetGenres,
-    GetLanguages
+    GetLanguages,
+    GetMovies
 } = require('../services/MovieService')
 
 const GetTopRatedMoviesController = async(req,res,next) => {
@@ -25,6 +26,16 @@ const GetNewReleasesController = async(req,res,next) => {
         movies:data
     })
 }
+const GetMoviesController = async(req,res,next) => {
+    const pageNo = req.params.page_no || 0
+    const limit = req.params.limit || 10
+    const lang = req.query.lang 
+    const genre = req.query.genre
+    const data = await GetMovies(pageNo,limit,lang,genre)
+    res.status(200).send({
+        movies:data
+    })
+}
 const GetGenresController = async(req,res,next) => {
     const data = await GetGenres()
     res.status(200).send({
@@ -42,5 +53,6 @@ module.exports = {
     GetTopRatedMoviesController,
     GetNewReleasesController,
     GetGenresController,
-    GetLanguagesController    
+    GetLanguagesController ,
+    GetMoviesController   
 }

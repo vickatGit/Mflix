@@ -26,6 +26,18 @@ const GetNewReleases = async (pageNo, limit,lang,genre) => {
   return await Movie.aggregate(pipeline)
 }
 
+const GetMovies = async (pageNo, limit,lang,genre) => {
+  const pipeline = []
+  if(lang) pipeline.push({$match  : {languages:lang}})
+  if(genre) pipeline.push({$match  : {genres:genre}})
+  pipeline.push(
+    {$sort : {released : -1}},
+    {$skip:pageNo*limit},
+    {$limit:Number(limit)}
+  )
+  return await Movie.aggregate(pipeline)
+}
+
 const GetGenres = async() => {
   let genres = []
   const data = await Movie.aggregate([
@@ -54,5 +66,6 @@ module.exports = {
   GetTopRatedMovies,
   GetNewReleases,
   GetGenres,
-  GetLanguages
+  GetLanguages,
+  GetMovies
 };
