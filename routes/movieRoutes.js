@@ -2,14 +2,15 @@ const router = require('express').Router()
 const {
     GetTopRatedMoviesController,
     GetNewReleasesController,
-    GetGenresController
+    GetGenresController,
+    GetLanguagesController
 } = require('../controller/MovieController')
 
 router.route("/banners")
-router.route("/top_rated_movies/:page_no/:limit/:lang").get(GetTopRatedMoviesController)
-router.route("/new_releases/:page_no/:limit/:lang").get(GetNewReleasesController)
+router.route("/top_rated_movies/:page_no/:limit").get(GetTopRatedMoviesController)
+router.route("/new_releases/:page_no/:limit").get(GetNewReleasesController)
 router.route("/genres").get(GetGenresController)
-router.route("/languages")
+router.route("/languages").get(GetLanguagesController)
 router.route("/by_genre/:genre/:page_no/:limit")
 router.route("/by_language/:language/:page_no/:limit")
 router.route("/search/:query/:page_no/:limit")

@@ -31,10 +31,22 @@ const GetGenres = async() => {
   })
   return genres
 }
+const GetLanguages = async() => {
+  let languages = []
+  const data = await Movie.aggregate([
+    {$unwind:"$languages"},
+    {$group:{_id:"$languages"}}
+  ])
+  data.map((elem) => {
+    languages.push(elem._id)
+  })
+  return languages
+}
 
 
 module.exports = {
   GetTopRatedMovies,
   GetNewReleases,
-  GetGenres
+  GetGenres,
+  GetLanguages
 };
