@@ -19,7 +19,4 @@ router.route("/languages").get(GetLanguagesController)
 router.route("/search/:page_no/:limit").get(SearchMovieController)
 router.route("/get_movie/:movieId").get(GetMovieController)
 router.route("/comments/:page_no/:limit/:movieId").get(GetMovieCommentsController)
-router.route("/by_genre/:genre/:page_no/:limit")
-router.route("/by_language/:language/:page_no/:limit")
-router.route("/by_languages_genre/:language/:genre/:page_no/:limit")
 module.exports = router
