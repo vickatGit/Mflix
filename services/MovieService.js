@@ -81,6 +81,25 @@ const GetMovieComments = async(pageNo,limit,movieId) => {
   return await Comment.find({ movie_id : movieId }).skip(pageNo*limit).limit(limit)
 }
 
+const GetHomePageData = async(lang,genre) => {
+  
+  const homePage = [
+    { type:'Header' , text:'Top Rated Movies'},
+    { type : 'movies' , movies : await GetTopRatedMovies(0,20,lang,genre) },
+    { type:'Header' , text:'New Releases' },
+    { type : 'movies' , movies : await GetNewReleases(0,20,lang,genre) },
+    { type:'Header' , text:'Browse By Language' },
+    { type : 'languages' , languages : await GetLanguages() },
+    { type:'Header' , text:'Browse By Genre' },
+    { type : 'genres' , genres : await GetGenres() },
+    { type:'Header' , text:'Crime'},
+    { type : 'movies' , movies : await GetMovies(0,15,lang,"Crime") },
+    
+  ]
+  return homePage
+
+}
+
 module.exports = {
   GetTopRatedMovies,
   GetNewReleases,
@@ -89,5 +108,6 @@ module.exports = {
   GetMovies,
   SearchMovie,
   GetMovie,
-  GetMovieComments
+  GetMovieComments,
+  GetHomePageData
 };
