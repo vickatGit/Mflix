@@ -5,7 +5,8 @@ const {
     GetGenresController,
     GetLanguagesController,
     GetMoviesController,
-    SearchMovieController
+    SearchMovieController,
+    GetMovieController
 } = require('../controller/MovieController')
 
 router.route("/banners")
@@ -17,7 +18,7 @@ router.route("/languages").get(GetLanguagesController)
 router.route("/by_genre/:genre/:page_no/:limit")
 router.route("/by_language/:language/:page_no/:limit")
 router.route("/search/:page_no/:limit").get(SearchMovieController)
-router.route("/get_movie/:movieId")
+router.route("/get_movie/:movieId").get(GetMovieController)
 router.route("/get_comments/:movieId/:page_no/:limit")
 router.route("/by_languages_genre/:language/:genre/:page_no/:limit")
 module.exports = router

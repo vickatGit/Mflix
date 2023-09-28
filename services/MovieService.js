@@ -1,4 +1,5 @@
 const Movie = require("../ model/Movie");
+const Comment = require("../ model/Comment");
 
 const GetTopRatedMovies = async (pageNo, limit,lang,genre) => {
   const pipeline = [{$match:{'imdb.rating':{$ne:''}}}]
@@ -65,11 +66,23 @@ const SearchMovie = async(query) => {
 }
 
 
+const GetMovie = async(movieId) => {
+  let movie = await Movie.findOne({_id:movieId})
+  movie=movie.toObject()
+  if(movie.num_mflix_comments>0){
+    const comments = await Comment.find({ movie_id : movie._id }).limit(10)
+    movie.comments = comments
+  }
+  return movie
+
+}
+
 module.exports = {
   GetTopRatedMovies,
   GetNewReleases,
   GetGenres,
   GetLanguages,
   GetMovies,
-  SearchMovie
+  SearchMovie,
+  GetMovie
 };
