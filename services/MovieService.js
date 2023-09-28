@@ -70,11 +70,15 @@ const GetMovie = async(movieId) => {
   let movie = await Movie.findOne({_id:movieId})
   movie=movie.toObject()
   if(movie.num_mflix_comments>0){
-    const comments = await Comment.find({ movie_id : movie._id }).limit(10)
+    const comments = await GetMovieComments(0,10,movie._id)
     movie.comments = comments
   }
   return movie
 
+}
+
+const GetMovieComments = async(pageNo,limit,movieId) => {
+  return await Comment.find({ movie_id : movieId }).skip(pageNo*limit).limit(limit)
 }
 
 module.exports = {
@@ -84,5 +88,6 @@ module.exports = {
   GetLanguages,
   GetMovies,
   SearchMovie,
-  GetMovie
+  GetMovie,
+  GetMovieComments
 };
