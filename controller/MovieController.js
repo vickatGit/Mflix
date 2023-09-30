@@ -7,8 +7,36 @@ const {
     SearchMovie,
     GetMovie,
     GetMovieComments,
-    GetHomePageData
+    GetHomePageData,
+    MoviesPageByGenre,
+    MoviesPageByLanguage,
+    PostComment
 } = require('../services/MovieService')
+
+const CommentValidation = require('../ model/validation/CommentValidation')
+
+const PostCommentController = async(req,res,next) => {
+    const {error,value} = await CommentValidation.validate(req.body,{
+        abortEarly:false
+    })
+    if(error){
+        res.status(422).send({
+            errors:error
+        })
+    }
+
+
+    try {
+        const data = await PostComment(req.body.email,req.body.name, req.params.movieId,req.body.comment)
+        console.log("post comment data",data)
+        res.status(200).send({
+            msg:"Comment Posted"
+        }) 
+    } catch (error) {
+        
+    }
+    
+}
 
 const GetTopRatedMoviesController = async(req,res,next) => {
     const pageNo = req.params.page_no || 0
@@ -72,6 +100,23 @@ const GetHomePageDataController = async(req,res,next) => {
     })
 
 }
+
+const GetMoviesPageByLanguageController = async(req,res,next) => {
+    const lang = req.params.lang 
+    const data = await MoviesPageByLanguage(lang)
+    res.status(200).send({
+        data:data
+    })
+}
+
+const GetMoviesPageByGenreController = async(req,res,next) => {
+    const genre = req.params.genre
+    const data = await MoviesPageByGenre(genre)
+    res.status(200).send({
+        data:data
+    })
+
+}
 const GetGenresController = async(req,res,next) => {
     const data = await GetGenres()
     res.status(200).send({
@@ -94,5 +139,8 @@ module.exports = {
     SearchMovieController,
     GetMovieController,
     GetMovieCommentsController,
-    GetHomePageDataController
+    GetHomePageDataController,
+    GetMoviesPageByGenreController,
+    GetMoviesPageByLanguageController,
+    PostCommentController
 }
