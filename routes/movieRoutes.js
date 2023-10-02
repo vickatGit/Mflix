@@ -1,4 +1,3 @@
-
 /**
  * @swagger
  * components:
@@ -129,38 +128,30 @@
  *          type: string
  *        fresh:
  *          type: integer
+ * 
+ *    PostComment:
+ *      type: object
+ *      properties: 
+ *        email:
+ *          type: string
+ *        name:
+ *          type: string
+ *        comment:
+ *          type: string   
  */
-
 
 /**
  * @swagger
  * tags:
- *   name: Movies
+ *   - name: Movie
+ *   - name: Comment
  */
 
-/**
- * @swagger
- * /mflix/get_movie/{movieId}:
- *   get:
- *     summary: Returns the Movie
- *     tags: [Movies]
- *     parameters: 
- *       - in: path
- *         name: movieId
- *         schema: 
- *           type: string
- *         required: true
- *         description: The Movie Id
- *     responses:
- *       200:
- *         description: Movie with specified id
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Movie'
- *       404:
- *         description: Movie Not Found
- */
+
+
+
+
+
 
 const router = require('express').Router()
 const {
@@ -182,15 +173,303 @@ router.route("/banners")
 router.route("/home_page").get(GetHomePageDataController)
 router.route("/movies_page_lang/:lang").get(GetMoviesPageByLanguageController)
 router.route("/movies_page_genre/:genre").get(GetMoviesPageByGenreController)
+
+/**
+* @swagger
+*   /mflix/top_rated_movies/{pageNo}/{limit}:
+*     get:
+*       summary: Returns the Top Rated Movies According to Imdb
+*       tags: [Movie]
+*       parameters:
+*         - in: path
+*           name: pageNo
+*           schema:
+*             type: string
+*           required: true
+*           description: Data Page No (For Pagination)
+*         - in: path
+*           name: limit
+*           schema:
+*             type: string
+*           required: true
+*           description: Movie Limit per page
+*         - in: query
+*           name: lang
+*           schema: 
+*             type: string
+*           required: false
+*           description: Movie Language
+*         - in: query
+*           name: genre
+*           schema: 
+*             type: string
+*           required: false
+*           description: Movie Genre
+*       responses:
+*        200:
+*          description: Top Rated Movies According to Imdb
+*          content:
+*            application/json:
+*              schema:
+*                type: array
+*                items:
+*                  $ref: '#/components/schemas/Movie'
+* 
+*/
 router.route("/top_rated_movies/:page_no/:limit").get(GetTopRatedMoviesController)
+
+/**
+* @swagger
+*   /mflix/new_releases/{pageNo}/{limit}:
+*     get:
+*       summary: Returns the New Releases
+*       tags: [Movie]
+*       parameters:
+*         - in: path
+*           name: pageNo
+*           schema:
+*             type: string
+*           required: true
+*           description: Data Page No (For Pagination)
+*         - in: path
+*           name: limit
+*           schema:
+*             type: string
+*           required: true
+*           description: Movie Limit per page
+*         - in: query
+*           name: lang
+*           schema: 
+*             type: string
+*           required: false
+*           description: Movie Language
+*         - in: query
+*           name: genre
+*           schema: 
+*             type: string
+*           required: false
+*           description: Movie Genre
+*       responses:
+*        200:
+*          description: New Released Movies
+*          content:
+*            application/json:
+*              schema:
+*                type: array
+*                items:
+*                  $ref: '#/components/schemas/Movie'
+* 
+*/
 router.route("/new_releases/:page_no/:limit").get(GetNewReleasesController)
+
+/**
+* @swagger
+*   /mflix/get_movies/{pageNo}/{limit}:
+*     get:
+*       summary: Returns the Movies According specified Language and Genre
+*       tags: [Movie]
+*       parameters:
+*         - in: path
+*           name: pageNo
+*           schema:
+*             type: string
+*           required: true
+*           description: Data Page No (For Pagination)
+*         - in: path
+*           name: limit
+*           schema:
+*             type: string
+*           required: true
+*           description: Movie Limit per page
+*         - in: query
+*           name: lang
+*           schema: 
+*             type: string
+*           required: false
+*           description: Movie Language
+*         - in: query
+*           name: genre
+*           schema: 
+*             type: string
+*           required: false
+*           description: Movie Genre
+*       responses:
+*        200:
+*          description: New Released Movies
+*          content:
+*            application/json:
+*              schema:
+*                type: array
+*                items:
+*                  $ref: '#/components/schemas/Movie'
+* 
+*/
 router.route("/get_movies/:page_no/:limit").get(GetMoviesController)
+
+/**
+* @swagger
+*   /mflix/genres:
+*     get:
+*       summary: Returns the Available Genres
+*       tags: [Movie]
+*       responses:
+*        200:
+*          description: Available Genres
+*          content:
+*            application/json:
+*              schema:
+*                type: array
+*                items:
+*                  type: string
+* 
+*/
 router.route("/genres").get(GetGenresController)
+
+/**
+* @swagger
+*   /mflix/languages:
+*     get:
+*       summary: Returns the Available Languages
+*       tags: [Movie]
+*       responses:
+*        200:
+*          description: Available Languages
+*          content:
+*            application/json:
+*              schema:
+*                type: array
+*                items:
+*                  type: string
+* 
+*/
 router.route("/languages").get(GetLanguagesController)
+
+/**
+* @swagger
+*   /mflix/search/{pageNo}/{limit}:
+*     get:
+*       summary: Returns the Movies According specified Query
+*       tags: [Movie]
+*       parameters:
+*         - in: path
+*           name: pageNo
+*           schema:
+*             type: string
+*           required: true
+*           description: Data Page No (For Pagination)
+*         - in: path
+*           name: limit
+*           schema:
+*             type: string
+*           required: true
+*           description: Movie Limit per page
+*         - in: query
+*           name: query
+*           schema: 
+*             type: string
+*           required: true
+*           description: Movie Name
+*       responses:
+*        200:
+*          description: Movies According to Specified Query
+*          content:
+*            application/json:
+*              schema:
+*                type: array
+*                items:
+*                  $ref: '#/components/schemas/Movie'
+* 
+*/
 router.route("/search/:page_no/:limit").get(SearchMovieController)
+
+/**
+ * @swagger
+ * /mflix/get_movie/{movieId}:
+ *   get:
+ *     summary: Returns the Movie
+ *     tags: [Movie]
+ *     parameters: 
+ *       - in: path
+ *         name: movieId
+ *         schema: 
+ *           type: string
+ *         required: true
+ *         description: The Movie Id
+ *     responses:
+ *       200:
+ *         description: Movie with specified id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Movie'
+ *       404:
+ *         description: Movie Not Found
+ */
 router.route("/get_movie/:movieId").get(GetMovieController)
+
+/**
+* @swagger
+*   /mflix/comments/{pageNo}/{limit}/{movieId}:
+*     get:
+*       summary: Returns the Movies According specified Query
+*       tags: [Comment]
+*       parameters:
+*         - in: path
+*           name: pageNo
+*           schema:
+*             type: string
+*           required: true
+*           description: Data Page No (For Pagination)
+*         - in: path
+*           name: limit
+*           schema:
+*             type: string
+*           required: true
+*           description: Movie Limit per page
+*         - in: path
+*           name: movieId
+*           schema: 
+*             type: string
+*           required: true
+*           description: Movie Id
+*       responses:
+*        200:
+*          description: Comments According to Specified Movie Id
+*          content:
+*            application/json:
+*              schema:
+*                type: array
+*                items:
+*                  $ref: '#/components/schemas/Comment'
+* 
+*/
 router.route("/comments/:page_no/:limit/:movieId").get(GetMovieCommentsController)
 
+/**
+ * @swagger
+ * /mflix/post_comment/{movieId}:
+ *   post:
+ *     summary: Post Comment to a Movie
+ *     tags: [Comment]
+ *     requestBody:
+ *       description: Post Comment
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/PostComment'
+ *       required: true
+ *     parameters:
+ *        - in: path
+ *          name: movieId
+ *          schema:
+ *            type: string
+ *          required: string 
+ *     responses:
+ *       200:
+ *         description: Comment Posted
+ *         
+ *       
+ */
 router.route("/post_comment/:movieId").post(PostCommentController)
 module.exports = router
 
