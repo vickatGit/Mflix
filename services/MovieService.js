@@ -1,6 +1,28 @@
 const Movie = require("../ model/Movie");
 const Comment = require("../ model/Comment");
 
+
+const GetBanner = async(lang) => {
+  return await Movie.aggregate([
+    {$match:{'imdb.rating':{$ne:''}}},
+    {$match:{
+      poster:{$exists:true}
+    }},
+    {$sort:{'imdb.rating':-1}},
+    {$match:{languages:lang}},
+    {$limit:10},
+    {$project:{
+      title:1,
+      poster:1,
+      name:1,
+      plot:1,
+      runtime:1,
+      rated:1,
+      imdb:1,
+    }}
+  ])
+}
+
 const PostComment = async(email,name,movieId,comment) => {
   return await Comment.create({
     name:name,
@@ -110,12 +132,12 @@ const GetHomePageData = async(lang,genre) => {
 
 }
 
-const MoviesPageByGenre = async(genre) => {
+const MoviesPageByLanguage = async(lang) => {
   const homePage = [
     { type:'Header' , text:'Top Rated Movies'},
-    { type : 'movies' , movies : await GetTopRatedMovies(0,20,lang,genre) },
+    { type : 'movies' , movies : await GetTopRatedMovies(0,20,lang) },
     { type:'Header' , text:'New Releases' },
-    { type : 'movies' , movies : await GetNewReleases(0,20,lang,genre) },
+    { type : 'movies' , movies : await GetNewReleases(0,20,lang) },
     { type:'Header' , text:`${lang} Action Movies`},
     { type : 'movies' , movies : await GetMovies(0,15,lang,"Action") },
     { type:'Header' , text:`${lang} Adventure Movies`},
@@ -128,19 +150,19 @@ const MoviesPageByGenre = async(genre) => {
     { type : 'movies' , movies : await GetMovies(0,15,lang,"Comedy") },
     { type:'Header' , text:`${lang} Horror Movies`},
     { type : 'movies' , movies : await GetMovies(0,15,lang,"Horror") },
-    { type:'Header' , text:`Spanish ${genre} Crime Movies`},
+    { type:'Header' , text:`${lang} Crime Movies`},
     { type : 'movies' , movies : await GetMovies(0,15,lang,"Crime") },
     
   ]
   return homePage
 }
 
-const MoviesPageByLanguage = async (lang) => {
+const MoviesPageByGenre = async (genre) => {
   const homePage = [
     { type:'Header' , text:'Top Rated Movies'},
-    { type : 'movies' , movies : await GetTopRatedMovies(0,20,lang,genre) },
+    { type : 'movies' , movies : await GetTopRatedMovies(0,20,null,genre) },
     { type:'Header' , text:'New Releases' },
-    { type : 'movies' , movies : await GetNewReleases(0,20,lang,genre) },
+    { type : 'movies' , movies : await GetNewReleases(0,20,null,genre) },
     { type:'Header' , text:`English ${genre} Movies`},
     { type : 'movies' , movies : await GetMovies(0,15,"English",genre) },
     { type:'Header' , text:`Hindi ${genre} Movies`},
@@ -171,5 +193,6 @@ module.exports = {
   GetHomePageData,
   MoviesPageByGenre,
   MoviesPageByLanguage,
-  PostComment
+  PostComment,
+  GetBanner
 };

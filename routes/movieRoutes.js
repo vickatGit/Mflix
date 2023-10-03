@@ -2,6 +2,24 @@
  * @swagger
  * components:
  *  schemas :
+ *    MovieThumb:
+ *      type: object
+ *      properties:
+ *        _id:
+ *          type: string
+ *        plot:
+ *          type: string
+ *        runtime:
+ *          type: integer
+ *        rated:
+ *           type: string
+ *        poster:
+ *          type: string
+ *        title:
+ *          type: string
+ *        imdb:
+ *          $ref : '#/components/schemas/Imdb'
+ * 
  *    Movie:
  *      type: object
  *      properties:
@@ -138,6 +156,34 @@
  *          type: string
  *        comment:
  *          type: string   
+ * 
+ *    Header:
+ *      type: object
+ *      properties:
+ *        type:
+ *          type: string
+ *        text:
+ *          type: string
+ * 
+ *    Movies:
+ *      type: object
+ *      properties:
+ *        type:
+ *          type: string
+ *        movies:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/Movie'
+ *    Languages:
+ *      type: array
+ *      items:
+ *        type: string  
+ * 
+ *    Genres:
+ *      type: array
+ *      items:
+ *        type: string  
+ *        
  */
 
 /**
@@ -166,12 +212,124 @@ const {
     GetHomePageDataController,
     GetMoviesPageByGenreController,
     GetMoviesPageByLanguageController,
-    PostCommentController
+    PostCommentController,
+    GetBannersController
 } = require('../controller/MovieController')
 
-router.route("/banners")
+
+/**
+* @swagger
+*   /mflix/banners:
+*     get:
+*       summary: Returns the Banners
+*       tags: [Movie]
+*       parameters:
+*         - in: query
+*           name: lang
+*           schema: 
+*             type: string
+*           required: false
+*           description: Movie Language
+*       responses:
+*        200:
+*          description: Banners
+*          content:
+*            application/json:
+*              schema:
+*                type: array
+*                items:
+*                  $ref: '#/components/schemas/MovieThumb'
+* 
+*/
+router.route("/banners").get(GetBannersController)
+
+/**
+ * @swagger
+ *   /mflix/home_page:
+ *     get:
+ *       summary: Returns the list of component data to show on page
+ *       tags: [Movie]
+ *       parameters:
+ *         - in: query
+ *           name: lang
+ *           schema:
+ *             type: string
+ *           required: true
+ *           description: Movies Language
+ *         - in: query
+ *           name: genre
+ *           schema:
+ *             type: string
+ *           required: true
+ *           description: Movies Genre
+ *       responses:
+ *         200:
+ *           description: Movies page on the Basis of specified langauage
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   anyOf:
+ *                     - $ref: '#/components/schemas/Header'
+ *                     - $ref: '#/components/schemas/Movies'
+ *                     - $ref: '#/components/schemas/Languages'
+ *                     - $ref: '#/components/schemas/Genres'
+ */
 router.route("/home_page").get(GetHomePageDataController)
+
+/**
+ * @swagger
+ *   /mflix/movies_page_lang/{lang}:
+ *     get:
+ *       summary: Returns the list of component data to show on page
+ *       tags: [Movie]
+ *       parameters:
+ *         - in: path
+ *           name: lang
+ *           schema:
+ *             type: string
+ *           required: true
+ *           description: Movies Language
+ *       responses:
+ *         200:
+ *           description: Movies page on the Basis of specified langauage
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   anyOf:
+ *                     - $ref: '#/components/schemas/Header'
+ *                     - $ref: '#/components/schemas/Movies'
+ */
 router.route("/movies_page_lang/:lang").get(GetMoviesPageByLanguageController)
+
+/**
+ * @swagger
+ *   /mflix/movies_page_genre/{genre}:
+ *     get:
+ *       summary: Returns the list of component data to show on page
+ *       tags: [Movie]
+ *       parameters:
+ *         - in: path
+ *           name: genre
+ *           schema:
+ *             type: string
+ *           required: true
+ *           description: Movie Genre
+ *       responses:
+ *         200:
+ *           description: Movies page on the Basis of specified langauage
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   anyOf:
+ *                     - $ref: '#/components/schemas/Header'
+ *                     - $ref: '#/components/schemas/Movies'
+ */
 router.route("/movies_page_genre/:genre").get(GetMoviesPageByGenreController)
 
 /**
@@ -318,9 +476,8 @@ router.route("/get_movies/:page_no/:limit").get(GetMoviesController)
 *          content:
 *            application/json:
 *              schema:
-*                type: array
-*                items:
-*                  type: string
+*                type: object
+*                $ref: '#/components/schemas/Genres'
 * 
 */
 router.route("/genres").get(GetGenresController)
@@ -337,9 +494,8 @@ router.route("/genres").get(GetGenresController)
 *          content:
 *            application/json:
 *              schema:
-*                type: array
-*                items:
-*                  type: string
+*                type: object
+*                $ref: '#/components/schemas/Languages' 
 * 
 */
 router.route("/languages").get(GetLanguagesController)

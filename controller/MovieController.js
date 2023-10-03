@@ -10,10 +10,18 @@ const {
     GetHomePageData,
     MoviesPageByGenre,
     MoviesPageByLanguage,
-    PostComment
+    PostComment,
+    GetBanner
 } = require('../services/MovieService')
 
 const CommentValidation = require('../ model/validation/CommentValidation')
+const GetBannersController = async(req,res,next) => {
+    const lang = req.query.lang 
+    const data = await GetBanner(lang)
+    res.status(200).send({
+        movies:data
+    })
+}
 
 const PostCommentController = async(req,res,next) => {
     const {error,value} = await CommentValidation.validate(req.body,{
@@ -142,5 +150,6 @@ module.exports = {
     GetHomePageDataController,
     GetMoviesPageByGenreController,
     GetMoviesPageByLanguageController,
-    PostCommentController
+    PostCommentController,
+    GetBannersController
 }
