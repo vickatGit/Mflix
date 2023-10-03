@@ -272,7 +272,7 @@ router.route("/banners").get(GetBannersController)
  *                 items:
  *                   anyOf:
  *                     - $ref: '#/components/schemas/Header'
- *                     - $ref: '#/components/schemas/Movies'
+ *                     - $ref: '#/components/schemas/MovieThumb'
  *                     - $ref: '#/components/schemas/Languages'
  *                     - $ref: '#/components/schemas/Genres'
  */
@@ -371,7 +371,7 @@ router.route("/movies_page_genre/:genre").get(GetMoviesPageByGenreController)
 *              schema:
 *                type: array
 *                items:
-*                  $ref: '#/components/schemas/Movie'
+*                  $ref: '#/components/schemas/MovieThumb'
 * 
 */
 router.route("/top_rated_movies/:page_no/:limit").get(GetTopRatedMoviesController)
@@ -415,7 +415,7 @@ router.route("/top_rated_movies/:page_no/:limit").get(GetTopRatedMoviesControlle
 *              schema:
 *                type: array
 *                items:
-*                  $ref: '#/components/schemas/Movie'
+*                  $ref: '#/components/schemas/MovieThumb'
 * 
 */
 router.route("/new_releases/:page_no/:limit").get(GetNewReleasesController)
@@ -459,7 +459,7 @@ router.route("/new_releases/:page_no/:limit").get(GetNewReleasesController)
 *              schema:
 *                type: array
 *                items:
-*                  $ref: '#/components/schemas/Movie'
+*                  $ref: '#/components/schemas/MovieThumb'
 * 
 */
 router.route("/get_movies/:page_no/:limit").get(GetMoviesController)
@@ -533,7 +533,7 @@ router.route("/languages").get(GetLanguagesController)
 *              schema:
 *                type: array
 *                items:
-*                  $ref: '#/components/schemas/Movie'
+*                  $ref: '#/components/schemas/MovieThumb'
 * 
 */
 router.route("/search/:page_no/:limit").get(SearchMovieController)
@@ -557,7 +557,7 @@ router.route("/search/:page_no/:limit").get(SearchMovieController)
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Movie'
+ *               $ref: '#/components/schemas/MovieThumb'
  *       404:
  *         description: Movie Not Found
  */
