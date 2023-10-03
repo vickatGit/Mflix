@@ -216,6 +216,26 @@ const MoviesPageByGenre = async (genre) => {
   ]
   return homePage
 }
+
+const AddMovie = async(movie) => {
+  return {
+    msg:"Movie Added"
+  }
+}
+const DeleteMovie = async(movieId) => {
+  return {
+    msg:"Movie Deleted"
+  }
+}
+const UpdateMovie = async(movieId,data) => {
+  const update = { $set:{}}
+  for(const key in data){
+    update.$set[key] = data[key]
+  }
+  return {
+    msg:"Movie Updated"
+  }
+}
 module.exports = {
   GetTopRatedMovies,
   GetNewReleases,
@@ -229,5 +249,8 @@ module.exports = {
   MoviesPageByGenre,
   MoviesPageByLanguage,
   PostComment,
-  GetBanner
+  GetBanner,
+  AddMovie,
+  UpdateMovie,
+  DeleteMovie
 };

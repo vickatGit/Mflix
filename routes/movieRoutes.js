@@ -20,6 +20,55 @@
  *        imdb:
  *          $ref : '#/components/schemas/Imdb'
  * 
+ *    AddMovie:
+ *      type: object
+ *      properties:
+ *        plot:
+ *          type: string
+ *        poster:
+ *          type: string
+ *        genres:
+ *          type: array
+ *          items:
+ *            type: string
+ *        runtime:
+ *          type: integer
+ *        rated:
+ *           type: string
+ *        cast:
+ *           type: array
+ *           items:
+ *             type: string
+ *        title:
+ *          type: string
+ *        fullplot:
+ *          type: string
+ *        languages:
+ *           type: array
+ *           items:
+ *             type: string
+ *        released:
+ *          type: string
+ *        directors:
+ *          type: array
+ *          items:
+ *            type: string
+ *        writers:
+ *          type: array
+ *          items:
+ *            type: string
+ *        awards:
+ *          $ref : '#/components/schemas/Award'
+ *        year:
+ *          type: integer
+ *        imdb:
+ *          $ref : '#/components/schemas/Imdb'
+ *        countries:
+ *          type: array
+ *          items:
+ *            type: string
+ *        type:
+ *          $ref : '#/components/schemas/Tomatoes'
  *    Movie:
  *      type: object
  *      properties:
@@ -213,7 +262,11 @@ const {
     GetMoviesPageByGenreController,
     GetMoviesPageByLanguageController,
     PostCommentController,
-    GetBannersController
+    GetBannersController,
+    AddMovieController,
+    UpdateMovieController,
+    DeleteMovieController
+
 } = require('../controller/MovieController')
 
 
@@ -627,6 +680,71 @@ router.route("/comments/:page_no/:limit/:movieId").get(GetMovieCommentsControlle
  *       
  */
 router.route("/post_comment/:movieId").post(PostCommentController)
+
+/**
+ * @swagger
+ * /mflix/movie:
+ *   post:
+ *     summary: Add Movie
+ *     tags: [Movie]
+ *     requestBody:
+ *       description: Add Movie
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AddMovie'
+ *       required: true
+ *     responses:
+ *       200:
+ *         description: Movie Added         
+ *       
+ */
+router.route("/movie").post(AddMovieController)
+
+/**
+ * @swagger
+ * /mflix/movie/{movieId}:
+ *   delete:
+ *     summary: Delete Movie
+ *     tags: [Movie]
+ *     parameters:
+ *        - in: path
+ *          name: movieId
+ *          schema:
+ *            type: string
+ *          required: string 
+ *     responses:
+ *       200:
+ *         description: Movie Deleted         
+ *       
+ */
+router.route("/movie/:movieId").delete(DeleteMovieController)
+
+/**
+ * @swagger
+ * /mflix/movie/{movieId}:
+ *   patch:
+ *     summary: Update Movie
+ *     tags: [Movie]
+ *     requestBody:
+ *       description: Update Movie
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AddMovie'
+ *       required: true
+ *     parameters:
+ *        - in: path
+ *          name: movieId
+ *          schema:
+ *            type: string
+ *          required: string 
+ *     responses:
+ *       200:
+ *         description: Movie Updated         
+ *       
+ */
+router.route("/movie/:movieId").patch(UpdateMovieController)
 module.exports = router
 
 

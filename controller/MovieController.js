@@ -11,10 +11,14 @@ const {
     MoviesPageByGenre,
     MoviesPageByLanguage,
     PostComment,
-    GetBanner
+    GetBanner,
+    AddMovie,
+    UpdateMovie,
+    DeleteMovie
 } = require('../services/MovieService')
 
 const CommentValidation = require('../ model/validation/CommentValidation')
+const MovieValidation = require('../ model/validation/MovieValidation')
 const GetBannersController = async(req,res,next) => {
     const lang = req.query.lang 
     const data = await GetBanner(lang)
@@ -138,6 +142,41 @@ const GetLanguagesController = async(req,res,next) => {
     })
 }
 
+const AddMovieController = async(req,res,next) => {
+    const {error,value} = await MovieValidation.validate(req.body,{
+        abortEarly:false
+    })
+    if(error){
+        res.status(422).send({
+            errors:error
+        })
+    }
+    try {
+        const data = await AddMovie(req.body)
+        res.status(200).send(data)
+    } catch (error) {
+        
+    }
+}
+const DeleteMovieController = async(req,res,next) => {
+    try {
+        const data = await DeleteMovie(req.params.movieId)
+        res.status(200).send(data)
+    } catch (error) {
+        
+    }
+}
+const UpdateMovieController = async(req,res,next) => {
+    try {
+        const data = await UpdateMovie(req.params.movieId,req.body)
+        res.status(200).send(data)
+    } catch (error) {
+        res.status(500).send({
+            error:error
+        })
+    }
+}
+
 module.exports = {
     GetTopRatedMoviesController,
     GetNewReleasesController,
@@ -151,5 +190,8 @@ module.exports = {
     GetMoviesPageByGenreController,
     GetMoviesPageByLanguageController,
     PostCommentController,
-    GetBannersController
+    GetBannersController,
+    AddMovieController,
+    UpdateMovieController,
+    DeleteMovieController
 }
