@@ -5,6 +5,7 @@ const movieRoutes = require('./routes/movieRoutes')
 const swaggerJSDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 const limiter = require('express-rate-limit')
+const ErrorHandler = require('./middleware/ErrorHandler')
 const app = express()
 limiter = limiter.rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -30,6 +31,7 @@ dbConnect()
 app.use(limiter)
 app.use(express.json())
 app.use('/mflix/',movieRoutes)
+app.use(ErrorHandler)
 
 const apiSpecs = swaggerJSDoc(options)
 app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(apiSpecs))
