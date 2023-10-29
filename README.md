@@ -56,18 +56,3 @@ For detailed instructions on setting up the API, refer to the project documentat
 
 To use the Movie Database API, you can make requests to the various endpoints listed above. Make sure to provide the required parameters and follow the provided guidelines.
 
-## Contributors
-
-- [Your Name](https://github.com/yourusername): Role, Contributions
-- [Contributor 2's Name](https://github.com/contributor2username): Role, Contributions
-
-If you wish to contribute to the project, please follow the contribution guidelines specified in the project documentation.
-
-## License
-
-This project is licensed under the [INSERT LICENSE HERE]. For more information, please refer to the `LICENSE` file.
-
----
-
-For any issues or support related to the Movie Database API, please create a GitHub issue or reach out to the project maintainers.
-
