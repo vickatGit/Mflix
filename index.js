@@ -21,7 +21,7 @@ const options = {
             desciption:"Documentaion for Api which is Based on MongoDB Sample MFlix Database"
         },
         servers :[ {
-            url:"http://localhost:8080"
+            url:"https://mflixpopcornflicks.up.railway.app/"
         }],
     },
     apis : ["./routes/*.js"]
