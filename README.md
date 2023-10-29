@@ -43,13 +43,6 @@ The project is structured as follows:
 - The `MovieController` directory contains the controllers for various movie-related endpoints.
 - The `MovieThumb`, `AddMovie`, `Movie`, `Comment`, `Imdb`, `Award`, `TomatoesViewer`, `TomatoesCritic`, `Tomatoes`, `PostComment`, `Header`, `Movies`, `Languages`, and `Genres` schemas define the structure of the movie-related data.
 
-## Set Up
-
-To get started with the Movie Database API, follow these steps:
-
-1. Install the necessary dependencies.
-2. Set up the MongoDB sample database.
-3. Run the API on your local machine or a server.
 
 For detailed instructions on setting up the API, refer to the project documentation.
 
