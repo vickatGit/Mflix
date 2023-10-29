@@ -7,7 +7,7 @@ const swaggerUi = require('swagger-ui-express')
 const limiter = require('express-rate-limit')
 const ErrorHandler = require('./middleware/ErrorHandler')
 const app = express()
-limiter = limiter.rateLimit({
+limit = limiter.rateLimit({
     windowMs: 15 * 60 * 1000,
     max:100,
     message:"Too Many Requests, Please Try Again Later"
@@ -21,14 +21,14 @@ const options = {
             desciption:"Documentaion for Api which is Based on MongoDB Sample MFlix Database"
         },
         servers :[ {
-            url:"http://localhost:8080"
+            url:"https://mflixpopcornflicks.up.railway.app"
         }],
     },
     apis : ["./routes/*.js"]
 }
 dotenv.config()
 dbConnect()
-app.use(limiter)
+app.use(limit)
 app.use(express.json())
 app.use('/mflix/',movieRoutes)
 app.use(ErrorHandler)
