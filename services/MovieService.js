@@ -41,7 +41,16 @@ const GetTopRatedMovies = async (pageNo, limit,lang,genre) => {
     {$sort:{'imdb.rating':-1}},
     {$skip:pageNo*limit},
     {$limit:Number(limit)},
-    {$sort : { released : -1}}
+    {$sort : { released : -1}},
+    {$project:{
+      title:1,
+      poster:1,
+      name:1,
+      plot:1,
+      runtime:1,
+      rated:1,
+      imdb:1,
+    }}
   )
   
   return await Movie.aggregate(pipeline)
@@ -54,7 +63,16 @@ const GetNewReleases = async (pageNo, limit,lang,genre) => {
   pipeline.push(
     {$sort : {released : -1}},
     {$skip:pageNo*limit},
-    {$limit:Number(limit)}
+    {$limit:Number(limit)},
+    {$project:{
+      title:1,
+      poster:1,
+      name:1,
+      plot:1,
+      runtime:1,
+      rated:1,
+      imdb:1,
+    }}
   )
   return await Movie.aggregate(pipeline)
 }
@@ -66,7 +84,16 @@ const GetMovies = async (pageNo, limit,lang,genre) => {
   pipeline.push(
     {$sort : {released : -1}},
     {$skip:pageNo*limit},
-    {$limit:Number(limit)}
+    {$limit:Number(limit)},
+    {$project:{
+      title:1,
+      poster:1,
+      name:1,
+      plot:1,
+      runtime:1,
+      rated:1,
+      imdb:1,
+    }}
   )
   return await Movie.aggregate(pipeline)
 }
@@ -94,7 +121,15 @@ const GetLanguages = async() => {
   return languages
 }
 const SearchMovie = async(query) => {
-  return await Movie.find({title:{$regex:query}})
+  return await Movie.find({title:{$regex:query}},{
+    title:1,
+      poster:1,
+      name:1,
+      plot:1,
+      runtime:1,
+      rated:1,
+      imdb:1,
+  })
 }
 
 
@@ -181,6 +216,26 @@ const MoviesPageByGenre = async (genre) => {
   ]
   return homePage
 }
+
+const AddMovie = async(movie) => {
+  return {
+    msg:"Movie Added"
+  }
+}
+const DeleteMovie = async(movieId) => {
+  return {
+    msg:"Movie Deleted"
+  }
+}
+const UpdateMovie = async(movieId,data) => {
+  const update = { $set:{}}
+  for(const key in data){
+    update.$set[key] = data[key]
+  }
+  return {
+    msg:"Movie Updated"
+  }
+}
 module.exports = {
   GetTopRatedMovies,
   GetNewReleases,
@@ -194,5 +249,8 @@ module.exports = {
   MoviesPageByGenre,
   MoviesPageByLanguage,
   PostComment,
-  GetBanner
+  GetBanner,
+  AddMovie,
+  UpdateMovie,
+  DeleteMovie
 };

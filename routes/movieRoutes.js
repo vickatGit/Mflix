@@ -20,6 +20,55 @@
  *        imdb:
  *          $ref : '#/components/schemas/Imdb'
  * 
+ *    AddMovie:
+ *      type: object
+ *      properties:
+ *        plot:
+ *          type: string
+ *        poster:
+ *          type: string
+ *        genres:
+ *          type: array
+ *          items:
+ *            type: string
+ *        runtime:
+ *          type: integer
+ *        rated:
+ *           type: string
+ *        cast:
+ *           type: array
+ *           items:
+ *             type: string
+ *        title:
+ *          type: string
+ *        fullplot:
+ *          type: string
+ *        languages:
+ *           type: array
+ *           items:
+ *             type: string
+ *        released:
+ *          type: string
+ *        directors:
+ *          type: array
+ *          items:
+ *            type: string
+ *        writers:
+ *          type: array
+ *          items:
+ *            type: string
+ *        awards:
+ *          $ref : '#/components/schemas/Award'
+ *        year:
+ *          type: integer
+ *        imdb:
+ *          $ref : '#/components/schemas/Imdb'
+ *        countries:
+ *          type: array
+ *          items:
+ *            type: string
+ *        type:
+ *          $ref : '#/components/schemas/Tomatoes'
  *    Movie:
  *      type: object
  *      properties:
@@ -213,7 +262,11 @@ const {
     GetMoviesPageByGenreController,
     GetMoviesPageByLanguageController,
     PostCommentController,
-    GetBannersController
+    GetBannersController,
+    AddMovieController,
+    UpdateMovieController,
+    DeleteMovieController
+
 } = require('../controller/MovieController')
 
 
@@ -272,7 +325,7 @@ router.route("/banners").get(GetBannersController)
  *                 items:
  *                   anyOf:
  *                     - $ref: '#/components/schemas/Header'
- *                     - $ref: '#/components/schemas/Movies'
+ *                     - $ref: '#/components/schemas/MovieThumb'
  *                     - $ref: '#/components/schemas/Languages'
  *                     - $ref: '#/components/schemas/Genres'
  */
@@ -371,7 +424,7 @@ router.route("/movies_page_genre/:genre").get(GetMoviesPageByGenreController)
 *              schema:
 *                type: array
 *                items:
-*                  $ref: '#/components/schemas/Movie'
+*                  $ref: '#/components/schemas/MovieThumb'
 * 
 */
 router.route("/top_rated_movies/:page_no/:limit").get(GetTopRatedMoviesController)
@@ -415,7 +468,7 @@ router.route("/top_rated_movies/:page_no/:limit").get(GetTopRatedMoviesControlle
 *              schema:
 *                type: array
 *                items:
-*                  $ref: '#/components/schemas/Movie'
+*                  $ref: '#/components/schemas/MovieThumb'
 * 
 */
 router.route("/new_releases/:page_no/:limit").get(GetNewReleasesController)
@@ -459,7 +512,7 @@ router.route("/new_releases/:page_no/:limit").get(GetNewReleasesController)
 *              schema:
 *                type: array
 *                items:
-*                  $ref: '#/components/schemas/Movie'
+*                  $ref: '#/components/schemas/MovieThumb'
 * 
 */
 router.route("/get_movies/:page_no/:limit").get(GetMoviesController)
@@ -533,7 +586,7 @@ router.route("/languages").get(GetLanguagesController)
 *              schema:
 *                type: array
 *                items:
-*                  $ref: '#/components/schemas/Movie'
+*                  $ref: '#/components/schemas/MovieThumb'
 * 
 */
 router.route("/search/:page_no/:limit").get(SearchMovieController)
@@ -557,7 +610,7 @@ router.route("/search/:page_no/:limit").get(SearchMovieController)
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Movie'
+ *               $ref: '#/components/schemas/MovieThumb'
  *       404:
  *         description: Movie Not Found
  */
@@ -627,6 +680,71 @@ router.route("/comments/:page_no/:limit/:movieId").get(GetMovieCommentsControlle
  *       
  */
 router.route("/post_comment/:movieId").post(PostCommentController)
+
+/**
+ * @swagger
+ * /mflix/movie:
+ *   post:
+ *     summary: Add Movie
+ *     tags: [Movie]
+ *     requestBody:
+ *       description: Add Movie
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AddMovie'
+ *       required: true
+ *     responses:
+ *       200:
+ *         description: Movie Added         
+ *       
+ */
+router.route("/movie").post(AddMovieController)
+
+/**
+ * @swagger
+ * /mflix/movie/{movieId}:
+ *   delete:
+ *     summary: Delete Movie
+ *     tags: [Movie]
+ *     parameters:
+ *        - in: path
+ *          name: movieId
+ *          schema:
+ *            type: string
+ *          required: string 
+ *     responses:
+ *       200:
+ *         description: Movie Deleted         
+ *       
+ */
+router.route("/movie/:movieId").delete(DeleteMovieController)
+
+/**
+ * @swagger
+ * /mflix/movie/{movieId}:
+ *   patch:
+ *     summary: Update Movie
+ *     tags: [Movie]
+ *     requestBody:
+ *       description: Update Movie
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AddMovie'
+ *       required: true
+ *     parameters:
+ *        - in: path
+ *          name: movieId
+ *          schema:
+ *            type: string
+ *          required: string 
+ *     responses:
+ *       200:
+ *         description: Movie Updated         
+ *       
+ */
+router.route("/movie/:movieId").patch(UpdateMovieController)
 module.exports = router
 
 
