@@ -1,4 +1,4 @@
-# Movie Database API Documentation
+# Movie Database API
 
 This documentation provides details about the Movie Database API, which is based on MongoDB's sample movie database. The API is designed to provide information about movies, comments, and related metadata. 
 
