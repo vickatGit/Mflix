@@ -3,6 +3,7 @@
 This documentation provides details about the Movie Database API, which is based on MongoDB's sample movie database. The API is designed to provide information about movies, comments, and related metadata. 
 
 ## Swagger Specifications
+Swagger Doc : https://mflixpopcornflicks.up.railway.app/api-docs/
 
 The API specifications are based on Swagger. The following sections outline the various endpoints and their functionalities:
 
